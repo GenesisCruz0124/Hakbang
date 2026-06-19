@@ -1,5 +1,10 @@
 package ph.hakbang.app.ui.screens.settings
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.PowerManager
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,15 +23,33 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import ph.hakbang.app.data.preferences.AppLanguage
 import ph.hakbang.app.ui.AppViewModel
 import ph.hakbang.app.util.LocalAppStrings
 import ph.hakbang.app.util.StringKey
+
+private fun isIgnoringBatteryOptimizations(context: Context): Boolean {
+    val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+    return powerManager.isIgnoringBatteryOptimizations(context.packageName)
+}
+
+private fun requestIgnoreBatteryOptimizations(context: Context) {
+    val intent = Intent(
+        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+        Uri.parse("package:${context.packageName}")
+    )
+    context.startActivity(intent)
+}
 
 @Composable
 fun SettingsScreen(viewModel: AppViewModel) {
@@ -37,6 +60,18 @@ fun SettingsScreen(viewModel: AppViewModel) {
     var weightText by remember(profile.weightKg) { mutableStateOf(profile.weightKg.toString()) }
     var strideText by remember(profile.strideMeters) { mutableStateOf(profile.strideMeters.toString()) }
     var showResetDialog by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var resumeTick by remember { mutableIntStateOf(0) }
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) resumeTick++
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+    val batteryOptimizationDisabled = remember(resumeTick) { isIgnoringBatteryOptimizations(context) }
 
     Column(
         modifier = Modifier
@@ -93,6 +128,26 @@ fun SettingsScreen(viewModel: AppViewModel) {
                     }
                 )
                 Text("Taglish")
+            }
+        }
+
+        SettingsCard(title = strings[StringKey.BATTERY_OPTIMIZATION_TITLE]) {
+            Text(
+                text = if (batteryOptimizationDisabled) {
+                    strings[StringKey.BATTERY_OPTIMIZATION_DESC_ON]
+                } else {
+                    strings[StringKey.BATTERY_OPTIMIZATION_DESC_OFF]
+                }
+            )
+            if (!batteryOptimizationDisabled) {
+                Button(
+                    onClick = { requestIgnoreBatteryOptimizations(context) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                ) {
+                    Text(strings[StringKey.BATTERY_OPTIMIZATION_BUTTON])
+                }
             }
         }
 
