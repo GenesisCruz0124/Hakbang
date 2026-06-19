@@ -49,6 +49,7 @@ class UserPreferences(private val context: Context) {
         // derive an ever-increasing all-time step total across reboots.
         val LAST_RAW_SENSOR_VALUE = longPreferencesKey("last_raw_sensor_value")
         val BOOT_OFFSET = longPreferencesKey("boot_offset")
+        val FILTERED_STEP_TOTAL = longPreferencesKey("filtered_step_total")
     }
 
     val userProfile: Flow<UserProfile> = context.dataStore.data.map { prefs ->
@@ -103,11 +104,13 @@ class UserPreferences(private val context: Context) {
 
     val lastRawSensorValue: Flow<Long> = context.dataStore.data.map { it[Keys.LAST_RAW_SENSOR_VALUE] ?: -1L }
     val bootOffset: Flow<Long> = context.dataStore.data.map { it[Keys.BOOT_OFFSET] ?: 0L }
+    val filteredStepTotal: Flow<Long> = context.dataStore.data.map { it[Keys.FILTERED_STEP_TOTAL] ?: 0L }
 
-    suspend fun saveSensorState(lastRawValue: Long, offset: Long) {
+    suspend fun saveSensorState(lastRawValue: Long, offset: Long, filteredTotal: Long) {
         context.dataStore.edit {
             it[Keys.LAST_RAW_SENSOR_VALUE] = lastRawValue
             it[Keys.BOOT_OFFSET] = offset
+            it[Keys.FILTERED_STEP_TOTAL] = filteredTotal
         }
     }
 }
