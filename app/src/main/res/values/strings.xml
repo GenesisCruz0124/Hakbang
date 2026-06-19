@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hakbang</string>
+
+    <!-- Common -->
+    <string name="steps_label">Steps</string>
+    <string name="daily_goal_label">Daily Goal</string>
+    <string name="distance_label">Distance</string>
+    <string name="calories_label">Calories</string>
+    <string name="streak_label">Streak</string>
+    <string name="history_label">History</string>
+    <string name="settings_label">Settings</string>
+    <string name="badges_label">Badges</string>
+    <string name="home_label">Home</string>
+
+    <!-- Home -->
+    <string name="percent_of_goal">%1$d%% of goal</string>
+    <string name="streak_badge">🔥 %1$d-day streak</string>
+    <string name="km_unit">km</string>
+    <string name="kcal_unit">kcal</string>
+
+    <!-- History -->
+    <string name="daily_label">Daily</string>
+    <string name="weekly_label">Weekly</string>
+    <string name="monthly_label">Monthly</string>
+    <string name="total_steps_label">Total Steps</string>
+    <string name="average_per_day_label">Average / Day</string>
+    <string name="best_day_label">Best Day</string>
+
+    <!-- Settings -->
+    <string name="weight_label">Weight (kg)</string>
+    <string name="stride_label">Stride Length (m)</string>
+    <string name="language_label">Language</string>
+    <string name="theme_label">Theme</string>
+    <string name="reset_data_label">Reset All Data</string>
+    <string name="reset_data_confirm_title">Reset all data?</string>
+    <string name="reset_data_confirm_message">This will permanently delete all your step history, streaks, and badges. This cannot be undone.</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="save">Save</string>
+
+    <!-- Permission rationale -->
+    <string name="permission_rationale_title">Activity Permission</string>
+    <string name="permission_rationale_message">Kailangan namin ito para mabilang ang hakbang mo</string>
+    <string name="permission_grant_button">Grant Permission</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_name">Step Counting</string>
+    <string name="notification_title">Hakbang is counting your steps</string>
+    <string name="notification_text">%1$d steps today</string>
+
+    <!-- Badges -->
+    <string name="badge_first_steps">First Steps</string>
+    <string name="badge_streak_5">5-Day Streak</string>
+    <string name="badge_streak_7">7-Day Streak</string>
+    <string name="badge_streak_30">30-Day Streak</string>
+    <string name="badge_10k_day">10K in a Day</string>
+    <string name="badge_100k_total">100K Total Steps</string>
+    <string name="badge_1m_total">1M Total Steps</string>
+    <string name="badges_earned">Earned</string>
+    <string name="badges_locked">Locked</string>
+</resources>

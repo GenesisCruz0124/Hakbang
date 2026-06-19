@@ -1,0 +1,36 @@
+*.iml
+.gradle
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild
+.cxx
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# IntelliJ
+*.iws
+/out/
+
+# NDK
+obj/
+
+# Gradle wrapper jar should be kept, but caches should not
+.gradle/
+
+# Keystore files
+*.jks
+*.keystore
