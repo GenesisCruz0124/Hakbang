@@ -56,8 +56,10 @@ class FloorClimbSensorManager(context: Context) : SensorEventListener {
         if (smoothed - baselineAltitude >= FLOOR_HEIGHT_METERS) {
             baselineAltitude = smoothed
             _floorClimbed.tryEmit(Unit)
-        } else if (smoothed < baselineAltitude) {
-            // Reset the baseline when descending/leveling off so future climbs are measured fresh.
+        } else if (smoothed < baselineAltitude - NOISE_MARGIN_METERS) {
+            // Only treat this as a real descent (and reset the baseline) once the drop clears
+            // the noise margin; barometer jitter of a few cm otherwise kept re-chasing the
+            // baseline downward and prevented a real climb from ever accumulating 3m of net ascent.
             baselineAltitude = smoothed
         }
     }
@@ -68,5 +70,7 @@ class FloorClimbSensorManager(context: Context) : SensorEventListener {
         /** Average height of one flight of stairs, used as the ascent threshold for counting a floor climbed. */
         private const val FLOOR_HEIGHT_METERS = 3.0
         private const val SMOOTHING_ALPHA = 0.2f
+        /** Minimum drop below the current baseline before it's treated as a real descent rather than sensor noise. */
+        private const val NOISE_MARGIN_METERS = 0.5
     }
 }
