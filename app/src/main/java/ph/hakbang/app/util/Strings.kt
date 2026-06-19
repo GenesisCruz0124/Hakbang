@@ -18,7 +18,8 @@ enum class StringKey {
     BADGE_10K_DAY, BADGE_100K_TOTAL, BADGE_1M_TOTAL, BADGES_EARNED, BADGES_LOCKED,
     NOTIFICATION_TITLE, NOTIFICATION_TEXT,
     BATTERY_OPTIMIZATION_TITLE, BATTERY_OPTIMIZATION_DESC_ON, BATTERY_OPTIMIZATION_DESC_OFF,
-    BATTERY_OPTIMIZATION_BUTTON
+    BATTERY_OPTIMIZATION_BUTTON,
+    FLOORS_CLIMBED
 }
 
 private val englishStrings: Map<StringKey, String> = mapOf(
@@ -68,7 +69,8 @@ private val englishStrings: Map<StringKey, String> = mapOf(
     StringKey.BATTERY_OPTIMIZATION_TITLE to "Background Counting",
     StringKey.BATTERY_OPTIMIZATION_DESC_ON to "Battery optimization is OFF for Hakbang. Step counting will keep running reliably in the background.",
     StringKey.BATTERY_OPTIMIZATION_DESC_OFF to "Some phones may stop step counting in the background to save battery. Turn off battery optimization for Hakbang so it can keep counting.",
-    StringKey.BATTERY_OPTIMIZATION_BUTTON to "Disable Battery Optimization"
+    StringKey.BATTERY_OPTIMIZATION_BUTTON to "Disable Battery Optimization",
+    StringKey.FLOORS_CLIMBED to "Floors Climbed"
 )
 
 private val taglishStrings: Map<StringKey, String> = mapOf(
@@ -118,7 +120,8 @@ private val taglishStrings: Map<StringKey, String> = mapOf(
     StringKey.BATTERY_OPTIMIZATION_TITLE to "Background na Pagbilang",
     StringKey.BATTERY_OPTIMIZATION_DESC_ON to "Naka-OFF na ang battery optimization para sa Hakbang. Tuloy-tuloy ang pagbilang ng hakbang sa background.",
     StringKey.BATTERY_OPTIMIZATION_DESC_OFF to "Sa ibang phone, maaaring tumigil ang pagbilang sa background para makatipid ng baterya. I-off ang battery optimization para sa Hakbang para tuloy-tuloy ang pagbilang.",
-    StringKey.BATTERY_OPTIMIZATION_BUTTON to "I-disable ang Battery Optimization"
+    StringKey.BATTERY_OPTIMIZATION_BUTTON to "I-disable ang Battery Optimization",
+    StringKey.FLOORS_CLIMBED to "Hagdan na Inakyat"
 )
 
 class AppStrings(private val language: AppLanguage) {

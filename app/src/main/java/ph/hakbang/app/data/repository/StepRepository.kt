@@ -99,6 +99,12 @@ class StepRepository(
         applySensorAllTimeTotal(current.lastCumulativeSensorValue, today)
     }
 
+    /** Records a detected flight of stairs climbed (see FloorClimbSensorManager) against today's row. */
+    suspend fun incrementFloorsClimbed(today: LocalDate = LocalDate.now()) {
+        val existing = dao.getByDate(today) ?: DailySteps(date = today)
+        dao.upsert(existing.copy(floorsClimbed = existing.floorsClimbed + 1))
+    }
+
     suspend fun resetAllData() {
         dao.deleteAll()
         preferences.resetAll()

@@ -17,7 +17,8 @@ data class HomeUiState(
     val distanceKm: Double = 0.0,
     val calories: Double = 0.0,
     val percentOfGoal: Int = 0,
-    val currentStreak: Int = 0
+    val currentStreak: Int = 0,
+    val floorsClimbed: Int = 0
 )
 
 class HomeViewModel(
@@ -36,7 +37,8 @@ class HomeViewModel(
             distanceKm = StepCalculations.distanceKm(steps, profile.strideMeters),
             calories = StepCalculations.calories(steps, profile.weightKg),
             percentOfGoal = if (profile.dailyGoal > 0) ((steps * 100) / profile.dailyGoal).coerceAtMost(999) else 0,
-            currentStreak = profile.streakCount
+            currentStreak = profile.streakCount,
+            floorsClimbed = today?.floorsClimbed ?: 0
         )
     }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeUiState())
 }

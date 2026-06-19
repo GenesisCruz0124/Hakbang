@@ -19,6 +19,7 @@ import ph.hakbang.app.HakbangApp
 import ph.hakbang.app.MainActivity
 import ph.hakbang.app.R
 import ph.hakbang.app.data.preferences.AppLanguage
+import ph.hakbang.app.sensor.FloorClimbSensorManager
 import ph.hakbang.app.sensor.StepSensorManager
 import ph.hakbang.app.util.AppStrings
 import ph.hakbang.app.util.StringKey
@@ -30,6 +31,7 @@ class StepCounterService : Service() {
     private val serviceScope = CoroutineScope(Dispatchers.Default + serviceJob)
 
     private lateinit var stepSensorManager: StepSensorManager
+    private lateinit var floorClimbSensorManager: FloorClimbSensorManager
     private lateinit var app: HakbangApp
 
     private var currentLanguage: AppLanguage = AppLanguage.ENGLISH
@@ -38,6 +40,7 @@ class StepCounterService : Service() {
         super.onCreate()
         app = application as HakbangApp
         stepSensorManager = StepSensorManager(this, app.userPreferences, serviceScope)
+        floorClimbSensorManager = FloorClimbSensorManager(this)
         createNotificationChannel()
     }
 
@@ -53,6 +56,14 @@ class StepCounterService : Service() {
         serviceScope.launch {
             stepSensorManager.loadPersistedState()
             stepSensorManager.start()
+        }
+
+        floorClimbSensorManager.start()
+
+        serviceScope.launch {
+            floorClimbSensorManager.floorClimbed.collect {
+                app.stepRepository.incrementFloorsClimbed(LocalDate.now())
+            }
         }
 
         serviceScope.launch {
@@ -103,6 +114,7 @@ class StepCounterService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         stepSensorManager.stop()
+        floorClimbSensorManager.stop()
         serviceJob.cancel()
     }
 

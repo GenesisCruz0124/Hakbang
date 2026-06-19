@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Stairs
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,7 +66,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         QuickStatsRow(
             distanceKm = uiState.distanceKm,
             calories = uiState.calories,
-            percentOfGoal = uiState.percentOfGoal,
+            floorsClimbed = uiState.floorsClimbed,
             strings = strings
         )
     }
@@ -148,7 +151,7 @@ private fun StreakBadge(text: String) {
 private fun QuickStatsRow(
     distanceKm: Double,
     calories: Double,
-    percentOfGoal: Int,
+    floorsClimbed: Int,
     strings: ph.hakbang.app.util.AppStrings
 ) {
     Row(
@@ -164,14 +167,15 @@ private fun QuickStatsRow(
             value = String.format("%.0f %s", calories, strings[StringKey.KCAL_UNIT])
         )
         StatCard(
-            title = strings[StringKey.STREAK],
-            value = strings.format(StringKey.PERCENT_OF_GOAL, percentOfGoal)
+            title = strings[StringKey.FLOORS_CLIMBED],
+            value = "$floorsClimbed",
+            icon = Icons.Filled.Stairs
         )
     }
 }
 
 @Composable
-private fun StatCard(title: String, value: String) {
+private fun StatCard(title: String, value: String, icon: androidx.compose.ui.graphics.vector.ImageVector? = null) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier.padding(4.dp)
@@ -180,6 +184,14 @@ private fun StatCard(title: String, value: String) {
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
             Text(text = value, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Text(text = title, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }

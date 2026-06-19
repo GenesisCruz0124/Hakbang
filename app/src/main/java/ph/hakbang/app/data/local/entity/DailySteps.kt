@@ -12,6 +12,8 @@ data class DailySteps(
     val distanceMeters: Double = 0.0,
     val calories: Double = 0.0,
     val goalMet: Boolean = false,
+    /** Flights of stairs climbed today, detected via the barometer (see FloorClimbSensorManager). */
+    val floorsClimbed: Int = 0,
     /** Cumulative sensor reading captured the last time [steps] was updated for this day. */
     val lastCumulativeSensorValue: Long = 0L,
     /** Cumulative sensor reading at the start of this day, used to derive [steps]. */
